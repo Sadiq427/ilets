@@ -46,6 +46,7 @@
                 <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
             </div>
             <div class="clock-sub" id="monthYear">Month Year</div>
+            <div class="text-secondary fw-bold">Sadiq Fazli</div>
         </div>
     </div>
 
@@ -61,7 +62,10 @@
                 
                 let time = new Date();
                 months = ['Jan', 'Feb', 'march', 'April', 'May', 'june', 'july', 'augest', 'sep', 'oct', 'nov', 'dec']
-                monthYear.innerText = "Year: " + time.getFullYear() +" Month: " + months[time.getMonth()] ;
+                days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Friday',  'Sat']
+                monthYear.innerText = "Year: " + time.getFullYear() +
+                " Month: " + months[time.getMonth() ]+ 
+                " Day: " + days[time.getDay() ]
 
                 hour.innerHTML = time.getHours();
                 minutes.innerHTML = time.getMinutes();
