@@ -1,81 +1,346 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Digital Clock (No JS)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        html,body { height:100%; }
-        .center-viewport {
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#f8f9fa;
-        }
-        .clock-card {
-            padding:2rem;
-            text-align:center;
-            border-radius:.75rem;
-            box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
-            min-width:320px;
-            background:rgba(255, 139, 139, 0.524);
-        }
-        .clock-display {
-            font-family: "Courier New", monospace;
-            font-size:3.5rem;
-            letter-spacing:.06em;
-            line-height:1;
-        }
-        .clock-sub {
-            font-size:1.25rem;
-            color:#6c757d;
-            margin-top:.5rem;
-        }
-        @media (min-width:1200px) {
-            .clock-display { font-size:4.5rem; }
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<title>Responsive Modern Clock</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+/* =====================
+THEME VARIABLES
+===================== */
+
+:root{
+
+--bg:#0f172a;
+--card:rgba(255,255,255,0.07);
+--text:white;
+--sub:#94a3b8;
+--accent:#38bdf8;
+--grid:rgba(255,255,255,0.05);
+
+}
+
+
+.light{
+
+--bg:#f1f5f9;
+--card:rgba(255,255,255,0.9);
+--text:#0f172a;
+--sub:#475569;
+--accent:#0ea5e9;
+--grid:rgba(0,0,0,0.05);
+
+}
+
+
+/* =====================
+BODY
+===================== */
+
+body{
+
+margin:0;
+height:100vh;
+
+font-family:Poppins;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+color:var(--text);
+
+background-color:var(--bg);
+
+background-image:
+
+linear-gradient(var(--grid) 1px, transparent 1px),
+
+linear-gradient(90deg,var(--grid) 1px, transparent 1px);
+
+background-size:40px 40px;
+
+transition:0.4s;
+
+}
+
+
+/* =====================
+TOGGLE BUTTON
+===================== */
+
+.theme-btn{
+
+position:absolute;
+
+top:20px;
+right:20px;
+
+border:none;
+
+padding:10px 15px;
+
+border-radius:10px;
+
+background:var(--card);
+
+color:var(--text);
+
+backdrop-filter:blur(10px);
+
+cursor:pointer;
+
+}
+
+
+/* =====================
+CARD
+===================== */
+
+.clock-card{
+
+background:var(--card);
+
+backdrop-filter:blur(20px);
+
+border-radius:20px;
+
+padding:40px;
+
+text-align:center;
+
+box-shadow:0 0 30px rgba(0,0,0,0.2);
+
+width:90%;
+max-width:500px;
+
+transition:0.4s;
+
+}
+
+
+/* =====================
+ICON
+===================== */
+
+.icon{
+
+font-size:30px;
+
+color:var(--accent);
+
+margin-bottom:10px;
+
+animation:float 3s infinite;
+
+}
+
+
+/* =====================
+TIME
+===================== */
+
+.clock-display{
+
+font-size:clamp(35px,8vw,70px);
+
+font-weight:700;
+
+letter-spacing:4px;
+
+color:var(--accent);
+
+animation:glow 2s infinite alternate;
+
+}
+
+
+/* =====================
+DATE
+===================== */
+
+.clock-sub{
+
+margin-top:10px;
+
+font-size:clamp(14px,3vw,18px);
+
+color:var(--sub);
+
+}
+
+
+/* =====================
+NAME
+===================== */
+
+.name{
+
+margin-top:20px;
+
+font-size:14px;
+
+color:var(--sub);
+
+}
+
+
+/* =====================
+ANIMATIONS
+===================== */
+
+@keyframes glow{
+
+from{opacity:0.7;}
+
+to{opacity:1;}
+
+}
+
+@keyframes float{
+
+0%,100%{transform:translateY(0)}
+
+50%{transform:translateY(-10px)}
+
+}
+
+
+</style>
+
 </head>
+
 <body>
-    <div class="center-viewport">
-        <div class="clock-card">
-            <!-- Placeholders to be filled by your JS later -->
-            <div class="clock-display">
-                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
-            </div>
-            <div class="clock-sub" id="monthYear">Month Year</div>
-            <div class="text-secondary fw-bold">Sadiq Fazli</div>
-        </div>
-    </div>
 
-    
-    <script>
 
-            let hour = document.getElementById("hours");
-            let minutes = document.getElementById("minutes");
-            let second = document.getElementById("seconds");
+<button class="theme-btn" onclick="toggleTheme()">
 
-            let monthYear = document.getElementById("monthYear");
-            setInterval(()=>{
-                
-                let time = new Date();
-                months = ['Jan', 'Feb', 'march', 'April', 'May', 'june', 'july', 'augest', 'sep', 'oct', 'nov', 'dec']
-                days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Friday',  'Sat']
-                monthYear.innerText = "Year: " + time.getFullYear() +
-                " Month: " + months[time.getMonth() ]+ 
-                " Day: " + days[time.getDay() ]
+<i class="fa-solid fa-moon"></i>
 
-                hour.innerHTML = time.getHours();
-                minutes.innerHTML = time.getMinutes();
-                second.innerText = time.getSeconds();
-
-            }, 1000);
+</button>
 
 
 
-    </script>
+<div class="clock-card">
+
+
+<div class="icon">
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+
+<div class="clock-display">
+
+<span id="hours">00</span> :
+
+<span id="minutes">00</span> :
+
+<span id="seconds">00</span>
+
+</div>
+
+
+<div class="clock-sub" id="monthYear">
+
+Date
+
+</div>
+
+
+<div class="name">
+
+<i class="fa-solid fa-code"></i> Sadiq Fazli
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+let hour=document.getElementById("hours");
+
+let minutes=document.getElementById("minutes");
+
+let second=document.getElementById("seconds");
+
+let monthYear=document.getElementById("monthYear");
+
+let body=document.body;
+
+
+function toggleTheme(){
+
+body.classList.toggle("light");
+
+}
+
+
+/* CLOCK */
+
+setInterval(()=>{
+
+
+let time=new Date();
+
+
+let months=[
+
+'Jan','Feb','Mar','Apr','May','Jun',
+
+'Jul','Aug','Sep','Oct','Nov','Dec'
+
+];
+
+
+let days=[
+
+'Sun','Mon','Tue','Wed','Thu','Fri','Sat'
+
+];
+
+
+hour.innerHTML=String(time.getHours()).padStart(2,"0");
+
+minutes.innerHTML=String(time.getMinutes()).padStart(2,"0");
+
+second.innerHTML=String(time.getSeconds()).padStart(2,"0");
+
+
+monthYear.innerHTML=
+
+'<i class="fa-solid fa-calendar-days"></i> '+
+
+days[time.getDay()]+" , "+
+
+months[time.getMonth()]+" "+
+
+time.getDate()+" , "+
+
+time.getFullYear();
+
+
+},1000);
+
+
+</script>
+
 
 </body>
+
 </html>
